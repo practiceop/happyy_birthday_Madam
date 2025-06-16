@@ -1,0 +1,638 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>You Are My Queen Forever</title>
+    <script src="audio.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:ital@0;1&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #2c1f4a, #1a1225);
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Playfair Display', serif;
+            color: #fff;
+            position: relative;
+        }
+        
+        .royal-backdrop {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(255, 215, 0, 0.2), transparent 70%);
+            z-index: 0;
+        }
+        
+        .tribute-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 2;
+            width: 90%;
+            max-width: 800px;
+        }
+        
+        .title {
+            font-size: 3.5rem;
+            margin-bottom: 2rem;
+            font-family: 'Dancing Script', cursive;
+            background: linear-gradient(to right, #f5d742, #f0c419, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+        
+        .photo-frame {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 0 auto 2rem;
+            border-radius: 10px;
+            padding: 10px;
+            background: linear-gradient(145deg, #ffd700, #f5d742);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .photo-container {
+            width: 100%;
+            height: 100%;
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .girlfriend-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 5px;
+            filter: brightness(1.1);
+        }
+        
+        .crown {
+            position: absolute;
+            width: 100px;
+            top: -120px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            z-index: 10;
+            filter: drop-shadow(0 0 10px gold);
+        }
+        
+        .message {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2rem;
+            margin: 2rem 0;
+            opacity: 0;
+            transform: translateY(20px);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .surprise-btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(145deg, #ffd700, #f5d742);
+            color: #1a1225;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .surprise-btn:hover {
+            transform: translateY(20px) scale(1.05);
+            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        .surprise-btn:before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: rotate(45deg);
+            animation: buttonShine 3s infinite;
+        }
+        
+        @keyframes buttonShine {
+            0% {
+                left: -50%;
+                top: -50%;
+            }
+            100% {
+                left: 150%;
+                top: 150%;
+            }
+        }
+        
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ff69b4"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>') no-repeat center center;
+            background-size: contain;
+            bottom: -100px;
+            opacity: 0;
+            z-index: 1;
+        }
+        
+        .sparkle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ffd700"><path d="M12 2L9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2z"/></svg>') no-repeat center center;
+            background-size: contain;
+            z-index: 1;
+            opacity: 0;
+        }
+        
+        .glow-effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 5px;
+            background: radial-gradient(circle at center, rgba(255, 215, 0, 0.5), transparent 70%);
+            opacity: 0;
+            z-index: 2;
+            pointer-events: none;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .modal-content {
+            background: linear-gradient(145deg, #2c1f4a, #1a1225);
+            padding: 30px;
+            border-radius: 15px;
+            width: 80%;
+            max-width: 800px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            position: relative;
+            transform: scale(0.8);
+            transition: transform 0.5s ease;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            color: #fff;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+        
+        .choice-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .choice-btn {
+            padding: 15px 25px;
+            background: linear-gradient(145deg, #ffd700, #f5d742);
+            color: #1a1225;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .choice-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .personal-note {
+            margin-top: 30px;
+        }
+        
+        .note-textarea {
+            width: 100%;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #ffd700;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-family: 'Playfair Display', serif;
+            margin-top: 10px;
+            resize: none;
+            height: 100px;
+        }
+        
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2.5rem;
+            }
+            
+            .photo-frame {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .crown {
+                width: 80px;
+            }
+            
+            .message {
+                font-size: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .title {
+                font-size: 2rem;
+            }
+            
+            .photo-frame {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .crown {
+                width: 60px;
+            }
+            
+            .message {
+                font-size: 1.2rem;
+            }
+            
+            .surprise-btn {
+                padding: 12px 24px;
+                font-size: 1rem;
+            }
+        }
+        
+        .firework {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            transform-origin: center;
+            background-color: transparent;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="royal-backdrop"></div>
+    
+    <div class="tribute-container">
+        <h1 class="title">You Are My Queen Forever , Click the picture</h1>
+        
+        <div class="photo-frame">
+            <div class="photo-container">
+                <img src="./WhatsApp Image 2025-06-16 at 15.40.20.jpeg" alt="My Queen" class="girlfriend-photo">
+                <div class="glow-effect"></div>
+                <img class="crown" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 30' fill='%23ffd700'><path d='M25,1 L37,15 L49,5 L40,25 L10,25 L1,5 L13,15 Z' stroke='%23ffd700' stroke-width='1'/><circle cx='25' cy='10' r='3' fill='%23ff5757'/><circle cx='13' cy='15' r='2' fill='%2357b4ff'/><circle cx='37' cy='15' r='2' fill='%2360ff57'/><circle cx='49' cy='5' r='2' fill='%23ff57f1'/><circle cx='1' cy='5' r='2' fill='%23ffea57'/></svg>" alt="Crown">
+            </div>
+        </div>
+        
+        <p class="message">On this special dayy , i want to celebrate this festival , with all my efforts , with all my loveee with all my loveeeeeeeeee…</p>
+        
+        <button class="surprise-btn">A Special Surprise</button>
+    </div>
+    
+   
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Replace with actual photo
+            // You would need to replace the placeholder with your actual photo
+            // document.querySelector('.girlfriend-photo').src = 'path-to-your-photo.jpg';
+            
+            // Create hearts
+            createHearts();
+            
+            // Create sparkles
+            createSparkles();
+            
+            // Start crown animation after 2 seconds
+            setTimeout(animateCrown, 2000);
+            
+            // Setup modal and button
+            setupModal();
+        });
+        
+        function animateCrown() {
+            const crown = document.querySelector('.crown');
+            const message = document.querySelector('.message');
+            const surpriseBtn = document.querySelector('.surprise-btn');
+            const glowEffect = document.querySelector('.glow-effect');
+            
+            // Animate crown
+            crown.style.opacity = '1';
+            crown.style.transition = 'top 2s ease, opacity 1s ease';
+            crown.style.top = '-20px';
+            
+            // Show glow effect
+            setTimeout(() => {
+                glowEffect.style.opacity = '0.7';
+                glowEffect.style.transition = 'opacity 1s ease';
+                
+                // Show message
+                setTimeout(() => {
+                    message.style.opacity = '1';
+                    message.style.transform = 'translateY(0)';
+                    message.style.transition = 'opacity 1s ease, transform 1s ease';
+                    
+                    // Show button
+                    setTimeout(() => {
+                        surpriseBtn.style.opacity = '1';
+                        surpriseBtn.style.transform = 'translateY(0)';
+                        surpriseBtn.style.transition = 'opacity 1s ease, transform 1s ease';
+                    }, 1000);
+                }, 1000);
+            }, 1000);
+        }
+        
+        function createHearts() {
+            const body = document.body;
+            const width = window.innerWidth;
+            
+            for (let i = 0; i < 20; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                
+                const size = Math.random() * 20 + 10;
+                heart.style.width = `${size}px`;
+                heart.style.height = `${size}px`;
+                
+                // Set random horizontal position
+                const left = Math.random() * width;
+                heart.style.left = `${left}px`;
+                
+                // Append to body and animate
+                body.appendChild(heart);
+                
+                // Start animation with delay
+                setTimeout(() => {
+                    animateHeart(heart);
+                }, i * 500);
+            }
+        }
+        
+        function animateHeart(heart) {
+            // Set initial position
+            const bottom = -heart.offsetHeight;
+            heart.style.bottom = `${bottom}px`;
+            heart.style.opacity = '0';
+            
+            // Generate random parameters
+            const duration = Math.random() * 10 + 10; // 10-20s
+            const finalOpacity = Math.random() * 0.5 + 0.2; // 0.2-0.7
+            
+            // Start animation
+            heart.style.transition = `bottom ${duration}s linear, opacity 2s ease-in, transform 2s ease`;
+            
+            setTimeout(() => {
+                heart.style.bottom = '100%';
+                heart.style.opacity = finalOpacity;
+                heart.style.transform = `translateX(${Math.random() * 100 - 50}px) rotate(${Math.random() * 360}deg)`;
+                
+                // Reset after animation
+                setTimeout(() => {
+                    heart.style.opacity = '0';
+                    setTimeout(() => {
+                        heart.remove();
+                        createNewHeart();
+                    }, 2000);
+                }, duration * 1000 - 2000);
+            }, 100);
+        }
+        
+        function createNewHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            
+            const size = Math.random() * 20 + 10;
+            heart.style.width = `${size}px`;
+            heart.style.height = `${size}px`;
+            
+            // Set random horizontal position
+            const left = Math.random() * window.innerWidth;
+            heart.style.left = `${left}px`;
+            
+            // Append to body and animate
+            document.body.appendChild(heart);
+            animateHeart(heart);
+        }
+        
+        function createSparkles() {
+            const photoContainer = document.querySelector('.photo-container');
+            const rect = photoContainer.getBoundingClientRect();
+            
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    const sparkle = document.createElement('div');
+                    sparkle.classList.add('sparkle');
+                    
+                    const size = Math.random() * 8 + 5;
+                    sparkle.style.width = `${size}px`;
+                    sparkle.style.height = `${size}px`;
+                    
+                    // Position around the photo frame
+                    const angle = Math.random() * Math.PI * 2;
+                    const distance = Math.random() * 100 + 170;
+                    const x = Math.cos(angle) * distance + rect.width / 2;
+                    const y = Math.sin(angle) * distance + rect.height / 2;
+                    
+                    sparkle.style.left = `${x}px`;
+                    sparkle.style.top = `${y}px`;
+                    
+                    photoContainer.appendChild(sparkle);
+                    animateSparkle(sparkle);
+                }, i * 200);
+            }
+        }
+        
+        function animateSparkle(sparkle) {
+            // Set initial opacity
+            sparkle.style.opacity = '0';
+            
+            // Animate appearance and disappearance
+            sparkle.style.transition = 'opacity 0.5s ease-in, transform 2s ease';
+            
+            setTimeout(() => {
+                sparkle.style.opacity = '0.8';
+                sparkle.style.transform = 'scale(1.2)';
+                
+                // Fade out
+                setTimeout(() => {
+                    sparkle.style.opacity = '0';
+                    sparkle.style.transform = 'scale(0.8)';
+                    
+                    // Remove and create new
+                    setTimeout(() => {
+                        sparkle.remove();
+                        if (document.querySelectorAll('.sparkle').length < 30) {
+                            createNewSparkle();
+                        }
+                    }, 1000);
+                }, 1000);
+            }, 100);
+        }
+        
+        function createNewSparkle() {
+            const photoContainer = document.querySelector('.photo-container');
+            const rect = photoContainer.getBoundingClientRect();
+            
+            const sparkle = document.createElement('div');
+            sparkle.classList.add('sparkle');
+            
+            const size = Math.random() * 8 + 5;
+            sparkle.style.width = `${size}px`;
+            sparkle.style.height = `${size}px`;
+            
+            // Position around the photo frame
+            const angle = Math.random() * Math.PI * 2;
+            const distance = Math.random() * 100 + 170;
+            const x = Math.cos(angle) * distance + rect.width / 2;
+            const y = Math.sin(angle) * distance + rect.height / 2;
+            
+            sparkle.style.left = `${x}px`;
+            sparkle.style.top = `${y}px`;
+            
+            photoContainer.appendChild(sparkle);
+            animateSparkle(sparkle);
+        }
+        
+        function setupModal() {
+            const surpriseBtn = document.querySelector('.surprise-btn');
+            const modal = document.querySelector('.modal');
+            const modalContent = document.querySelector('.modal-content');
+            const closeBtn = document.querySelector('.modal-close');
+            
+            // Open modal on button click
+           surpriseBtn.addEventListener('click', () => {
+    window.location.href = 'love animation.html'; // Change to your target page
+});
+            
+            // Close modal
+            closeBtn.addEventListener('click', () => {
+                modalContent.style.transform = 'scale(0.8)';
+                modal.style.opacity = '0';
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                    stopFireworks();
+                }, 500);
+            });
+            
+            // Setup choice buttons
+            document.getElementById('video-btn').addEventListener('click', () => {
+                // Replace with your actual video URL
+                window.location.href = '#videoURL';
+            });
+            
+            document.getElementById('voice-btn').addEventListener('click', () => {
+                // Replace with your actual voice note URL
+                window.location.href = '#voiceNoteURL';
+            });
+            
+            document.getElementById('gif-btn').addEventListener('click', () => {
+                // Replace with your actual GIF URL
+                window.location.href = '#gifURL';
+            });
+        }
+        
+        function createFireworks() {
+            fireworkInterval = setInterval(() => {
+                const firework = document.createElement('div');
+                firework.classList.add('firework');
+                
+                // Set random position
+                const x = Math.random() * window.innerWidth;
+                const y = Math.random() * window.innerHeight * 0.7;
+                firework.style.left = `${x}px`;
+                firework.style.top = `${y}px`;
+                
+                document.body.appendChild(firework);
+                animateFirework(firework);
+            }, 300);
+        }
+        
+        function animateFirework(firework) {
+            const color = `hsl(${Math.random() * 360}, 100%, 65%)`;
+            
+            // Create explosion particles
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.style.position = 'absolute';
+                particle.style.width = '3px';
+                particle.style.height = '3px';
+                particle.style.borderRadius = '50%';
+                particle.style.backgroundColor = color;
+                particle.style.transformOrigin = 'center';
+                
+                firework.appendChild(particle);
+                
+                const angle = Math.random() * Math.PI * 2;
+                const distance = Math.random() * 50 + 30;
+                const duration = Math.random() * 1 + 0.5;
+                
+                particle.style.transition = `transform ${duration}s ease-out, opacity ${duration}s ease-out`;
+                
+                setTimeout(() => {
+                    particle.style.transform = `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px)`;
+                    particle.style.opacity = '0';
+                }, 10);
+            }
+            
+            // Remove firework after animation
+            setTimeout(() => {
+                firework.remove();
+            }, 2000);
+        }
+        
+        function stopFireworks() {
+            clearInterval(fireworkInterval);
+            const fireworks = document.querySelectorAll('.firework');
+            fireworks.forEach(firework => firework.remove());
+        }
+        
+        let fireworkInterval;
+    </script>
+</body>
+</html>
